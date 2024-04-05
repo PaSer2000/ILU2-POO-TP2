@@ -9,7 +9,8 @@ public class ControlAfficherMarche {
 		this.village = village;
 	}
 
-	public String[] donnerInfosMarche() {
-		return village.donnerEtatMarche();
-	}
+//	public String[] donnerInfosMarche() {
+//		int tailleTableau = Village.getNbEtalsOccupe() * 3;
+//		String[] donnees = new String[tailleTableau];	
+//	}
 }

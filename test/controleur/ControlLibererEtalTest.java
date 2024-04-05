@@ -11,11 +11,13 @@ import org.junit.jupiter.api.Test;
 import personnages.Chef;
 import villagegaulois.Village;
 
-class ControlPrendreEtalTest {
-	
+class ControlLibererEtalTest {
+
 	ControlEmmenager control1;
 	ControlVerifierIdentite control2;	
 	ControlPrendreEtal control3;
+	ControlTrouverEtalVendeur control4;
+	ControlLibererEtal control5;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -26,42 +28,35 @@ class ControlPrendreEtalTest {
 		control1 = new ControlEmmenager(village);
 		control2 = new ControlVerifierIdentite(village);
 		control3 = new ControlPrendreEtal(control2,village);
-
+		control4 = new ControlTrouverEtalVendeur(village);
+		control5 = new ControlLibererEtal(control4);
 		
 		control1.ajouterGaulois("Bonemine", 3);
+		control3.prendreEtal("Bonemine", "fleurs", 10);	
 	}
 
 	@Test
-	void testControlPrendreEtal() {
-		assertNotNull(control3);
+	void testControlLibererEtal() {
+		assertNotNull(control5);
 	}
 
 	@Test
-	void testResteEtals() {
-		assertTrue(control3.resteEtals());
-	    int nbEtals = control3.donnerNbEtal();
-	    
-		for (int i=0; i<nbEtals;i++) {
-			control1.ajouterGaulois("Gaul"+i,4);
-			control3.prendreEtal("Gaul"+i,"boeuf",6);
+	void testIsVendeur() {
+		assertTrue(control5.isVendeur("Bonemine"));
+		assertFalse(control5.isVendeur("Abraracourcix"));
+	}
+
+	@Test
+	void testLibererEtal() {
+		String[] donneesVente = new String[5];
+		donneesVente[0] = "true";
+		donneesVente[1] = "Bonemine";
+		donneesVente[2] = "fleurs";
+		donneesVente[3] = "10";
+		donneesVente[4] = "10";
+		for (int i = 0; i<5; i++) {
+			assertEquals(donneesVente[i],control5.libererEtal("Bonemine")[i]);
 		}
-		
-		assertFalse(control3.resteEtals());
-	}
-
-	@Test
-	void testPrendreEtal() {
-		assertEquals(1,control3.prendreEtal("Bonemine", "fleurs", 10));
-		
-	}
-
-	@Test
-	void testVerifierIdentite() {
-		assertTrue(control3.verifierIdentite("Bonemine"));
-		assertFalse(control3.verifierIdentite("César"));
-
 	}
 
 }
-
-//écrire assert puis control+space pour voir tous les types de asserts disponibles
